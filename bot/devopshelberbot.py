@@ -10,16 +10,32 @@ from dbhelper import DBHelper
 from telegram import ChatPermissions
 from telegram.ext import MessageHandler, Filters, CommandHandler, Updater
 
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
 logger = logging.getLogger(__name__)
 
 db = DBHelper()
 
-parser = argparse.ArgumentParser(description="Bot for helping in administration in DevOps groups in TG")
+parser = argparse.ArgumentParser(
+    description="Bot for helping in administration in DevOps groups in TG"
+)
 
-parser.add_argument("-b", "--bottoken", dest="bottoken", type=str, default="1231423", help="Bot token for TG API")
 parser.add_argument(
-    "-e", "--environment", dest="environment", type=str, default="config.ini", help="Environment for bot"
+    "-b",
+    "--bottoken",
+    dest="bottoken",
+    type=str,
+    default="1231423",
+    help="Bot token for TG API",
+)
+parser.add_argument(
+    "-e",
+    "--environment",
+    dest="environment",
+    type=str,
+    default="config.ini",
+    help="Environment for bot",
 )
 
 args = parser.parse_args()
@@ -96,7 +112,9 @@ class Base:
         return self.mention_user
 
     def is_admin(self, update, context):
-        if update.message.from_user.id in get_admin_ids(context, update.message.chat_id):
+        if update.message.from_user.id in get_admin_ids(
+            context, update.message.chat_id
+        ):
             return True
 
     def study(self, command_name):
@@ -156,7 +174,9 @@ class Base:
 
     def available_commands(self, update):
         self.section = str(update.message.chat.id)
-        file = open("helps/" + config.get(self.section, "commands_list") + "/commands.txt", "r")
+        file = open(
+            "helps/" + config.get(self.section, "commands_list") + "/commands.txt", "r"
+        )
         return file
 
     def moveIDs(self, update):
@@ -182,7 +202,15 @@ class Base:
         ChatUsername = str(update.message.chat.username)
         escTable = ChatUsername.maketrans(self.esc_map)
         escChatUsername = ChatUsername.translate(escTable)
-        return matches_job, matches_work, rss_link, job_channels, escMsg, user_id, escChatUsername
+        return (
+            matches_job,
+            matches_work,
+            rss_link,
+            job_channels,
+            escMsg,
+            user_id,
+            escChatUsername,
+        )
 
     def mute_variables(self, update):
         self.section = str(update.message.chat.id)
@@ -223,7 +251,9 @@ class Base:
         return self.hour, self.day
 
     def mute_gen_duration_message(self):
-        muteUntil = str(datetime.datetime.now() + datetime.timedelta(days=self.day, hours=self.hour))
+        muteUntil = str(
+            datetime.datetime.now() + datetime.timedelta(days=self.day, hours=self.hour)
+        )
         dateEsc = re.escape(muteUntil)
         return dateEsc
 
@@ -270,7 +300,9 @@ def starter(update, context):
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
@@ -284,9 +316,13 @@ def starter(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 starter_handler = CommandHandler("starter", starter, run_async=True)
@@ -313,7 +349,9 @@ def middle(update, context):
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
@@ -327,9 +365,13 @@ def middle(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 middle_handler = CommandHandler("middle", middle, run_async=True)
@@ -351,17 +393,29 @@ def course(update, context):
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is your " + "[courses list]" + "(" + url + ")" + "\.",
+                text=triggered_user
+                + " here is your "
+                + "[courses list]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 course_handler = CommandHandler("course", course, run_async=True)
@@ -383,17 +437,29 @@ def cert(update, context):
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is your " + "[certification tips]" + "(" + url + ")" + "\.",
+                text=triggered_user
+                + " here is your "
+                + "[certification tips]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 cert_handler = CommandHandler("cert", cert, run_async=True)
@@ -415,17 +481,29 @@ def tasks(update, context):
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is your " + "[DevOps tasks]" + "(" + url + ")" + "\.",
+                text=triggered_user
+                + " here is your "
+                + "[DevOps tasks]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 tasks_handler = CommandHandler("tasks", tasks, run_async=True)
@@ -443,22 +521,39 @@ def hrman(update, context):
         if update.message.reply_to_message is not None:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text="We have " + "[HR man]" + "(" + url + ")" + "\. Please read it carefully\.",
+                text="We have "
+                + "[HR man]"
+                + "("
+                + url
+                + ")"
+                + "\. Please read it carefully\.",
                 parse_mode="MarkdownV2",
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is your " + "[HR man]" + "(" + url + ")" + "\. Please read it carefully\.",
+                text=triggered_user
+                + " here is your "
+                + "[HR man]"
+                + "("
+                + url
+                + ")"
+                + "\. Please read it carefully\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 hrman_handler = CommandHandler("hrman", hrman, run_async=True)
@@ -475,12 +570,19 @@ def relocate(update, context):
         if update.message.reply_to_message is not None:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text="We have list of " + "[relocate chats and channels]" + "(" + url + ")" + "\.",
+                text="We have list of "
+                + "[relocate chats and channels]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
@@ -494,9 +596,13 @@ def relocate(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 relocate_handler = CommandHandler("relocate", relocate, run_async=True)
@@ -513,22 +619,39 @@ def coc(update, context):
         if update.message.reply_to_message is not None:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text="We have " + "[Code of Conduct]" + "(" + url + ")" + "\. Please read it carefully\.",
+                text="We have "
+                + "[Code of Conduct]"
+                + "("
+                + url
+                + ")"
+                + "\. Please read it carefully\.",
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is our " + "[Code of Conduct]" + "(" + url + ")" + "\.",
+                text=triggered_user
+                + " here is our "
+                + "[Code of Conduct]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 coc_handler = CommandHandler("coc", coc, run_async=True)
@@ -555,7 +678,9 @@ def work(update, context):
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
@@ -569,9 +694,13 @@ def work(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 work_handler = CommandHandler("work", work, run_async=True)
@@ -598,17 +727,29 @@ def ad(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is your " + "[advertising publish rules]" + "(" + url + ")" + "\.",
+                text=triggered_user
+                + " here is your "
+                + "[advertising publish rules]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 ad_handler = CommandHandler("ad", ad, run_async=True)
@@ -630,17 +771,29 @@ def chats(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is your " + "[friendly chats list]" + "(" + url + ")" + "\.",
+                text=triggered_user
+                + " here is your "
+                + "[friendly chats list]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 chats_handler = CommandHandler("chats", chats, run_async=True)
@@ -662,17 +815,29 @@ def events(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text=triggered_user + " here is your " + "[events list]" + "(" + url + ")" + "\.",
+                text=triggered_user
+                + " here is your "
+                + "[events list]"
+                + "("
+                + url
+                + ")"
+                + "\.",
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 events_handler = CommandHandler("events", events, run_async=True)
@@ -698,7 +863,9 @@ def report(update, context):
                 disable_web_page_preview=True,
                 parse_mode="Markdown",
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
             context.bot.forward_message(
                 chat_id=admin_chats,
                 from_chat_id=update.message.chat_id,
@@ -716,11 +883,16 @@ def report(update, context):
             # + str(update.message.reply_to_message.message_id), disable_web_page_preview=True, reply_markup=reply_markup)
         except AttributeError:
             context.bot.send_message(
-                chat_id=update.message.chat_id, text="Report command works on replied messages only."
+                chat_id=update.message.chat_id,
+                text="Report command works on replied messages only.",
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 report_handler = CommandHandler("report", report)
@@ -742,14 +914,21 @@ def summon(update, context):
                 + str(update.message.reply_to_message.text),
                 reply_to_message_id=update.message.message_id,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
             context.bot.send_message(
-                chat_id=update.message.chat_id, text="Summon command works on replied messages only."
+                chat_id=update.message.chat_id,
+                text="Summon command works on replied messages only.",
             )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 summon_handler = CommandHandler("summon", summon, run_async=True)
@@ -766,12 +945,16 @@ def man(update, context):
         if update.message.reply_to_message is not None:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
-                text="Here is the list of available commands\. " + "\n" + help_file.read(),
+                text="Here is the list of available commands\. "
+                + "\n"
+                + help_file.read(),
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             context.bot.send_message(
                 chat_id=update.message.chat_id,
@@ -779,9 +962,13 @@ def man(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 man_handler = CommandHandler("man", man, run_async=True)
@@ -795,10 +982,16 @@ def idnumber(update, context):
     feature_status = base.features_state(update, command_name)
     admins = base.is_admin(update, context)
     if feature_status and admins:
-        context.bot.send_message(chat_id=update.message.chat_id, text=update.message.chat_id)
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.send_message(
+            chat_id=update.message.chat_id, text=update.message.chat_id
+        )
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
     else:
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 idnumber_handler = CommandHandler("idnumber", idnumber, run_async=True)
@@ -814,16 +1007,20 @@ def move(update, context):
     if feature_status and admins:
         if update.message.reply_to_message.photo:
             context.bot.send_message(
-                chat_id=move_data[0], text="Your photo " + triggered_user + " was moved to " + move_data[1]
+                chat_id=move_data[0],
+                text="Your photo " + triggered_user + " was moved to " + move_data[1],
             )
             context.bot.forward_message(
                 chat_id=move_data[2],
                 from_chat_id=update.message.chat_id,
                 message_id=update.message.reply_to_message.message_id,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
             context.bot.deleteMessage(
-                chat_id=update.message.chat.id, message_id=update.message.reply_to_message.message_id
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id,
+                message_id=update.message.reply_to_message.message_id,
             )
         else:
             context.bot.send_message(
@@ -847,9 +1044,12 @@ def move(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
             context.bot.deleteMessage(
-                chat_id=update.message.chat.id, message_id=update.message.reply_to_message.message_id
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id,
+                message_id=update.message.reply_to_message.message_id,
             )
 
 
@@ -899,7 +1099,9 @@ def job(update, context):
                 reply_to_message_id=update.message.reply_to_message.message_id,
                 text="В Вашем посте отсуствует тег #вакансия или #резюме. Невозможно определить тип поста.",
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
         else:
             for i in job_checks[3]:
                 context.bot.send_message(
@@ -921,7 +1123,9 @@ def job(update, context):
                 parse_mode="MarkdownV2",
                 disable_web_page_preview=True,
             )
-            context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+            context.bot.deleteMessage(
+                chat_id=update.message.chat.id, message_id=update.message.message_id
+            )
 
 
 jobs_handler = CommandHandler("job", job, run_async=True)
@@ -941,7 +1145,8 @@ def mute(update, context):
         context.bot.restrict_chat_member(
             chat_id=update.message.chat_id,
             user_id=update.message.reply_to_message.from_user.id,
-            until_date=datetime.datetime.now() + datetime.timedelta(days=day, hours=hour),
+            until_date=datetime.datetime.now()
+            + datetime.timedelta(days=day, hours=hour),
             permissions=mute_vars[1],
         )
         context.bot.send_message(
@@ -967,7 +1172,9 @@ def mute(update, context):
             disable_web_page_preview=True,
             reply_to_message_id=update.message.message_id,
         )
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 mute_handler = CommandHandler("mute", mute, pass_args=True, run_async=True)
@@ -986,8 +1193,16 @@ def delete_service_message(update, context):
         context.bot.delete_message(chat_id=msg.chat.id, message_id=msg.message_id)
 
 
-dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, delete_service_message, run_async=True))
-dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_member, delete_service_message, run_async=True))
+dispatcher.add_handler(
+    MessageHandler(
+        Filters.status_update.new_chat_members, delete_service_message, run_async=True
+    )
+)
+dispatcher.add_handler(
+    MessageHandler(
+        Filters.status_update.left_chat_member, delete_service_message, run_async=True
+    )
+)
 
 
 def main():

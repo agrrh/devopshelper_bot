@@ -8,16 +8,32 @@ from mwt import MWT
 from dbhelper import DBHelper
 from telegram.ext import CommandHandler, Updater
 
-logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
 logger = logging.getLogger(__name__)
 
 db = DBHelper()
 
-parser = argparse.ArgumentParser(description="Bot for helping in administration in DevOps groups in TG")
+parser = argparse.ArgumentParser(
+    description="Bot for helping in administration in DevOps groups in TG"
+)
 
-parser.add_argument("-b", "--bottoken", dest="bottoken", type=str, default="1231423", help="Bot token for TG API")
 parser.add_argument(
-    "-e", "--environment", dest="environment", type=str, default="config.ini", help="Environment for bot"
+    "-b",
+    "--bottoken",
+    dest="bottoken",
+    type=str,
+    default="1231423",
+    help="Bot token for TG API",
+)
+parser.add_argument(
+    "-e",
+    "--environment",
+    dest="environment",
+    type=str,
+    default="config.ini",
+    help="Environment for bot",
 )
 
 args = parser.parse_args()
@@ -53,7 +69,9 @@ def warn(update, context, args):
     in_section = section in config.sections()
     command_name = inspect.currentframe().f_code.co_name
     feature_flag = config.get(section, command_name) == "on"
-    admins = update.message.from_user.id in get_admin_ids(context, update.message.chat_id)
+    admins = update.message.from_user.id in get_admin_ids(
+        context, update.message.chat_id
+    )
     if in_section and feature_flag and admins:
         db.add_user(user_id, user_username, warn)
         db.add_warn(user_id, user_username, warn)
@@ -75,7 +93,9 @@ def warn(update, context, args):
             + reason,
             reply_to_message_id=update.message.message_id,
         )
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
     if warn_text >= 3:
         db.delete_warn(user_id, user_username, warn)
         context.bot.restrict_chat_member(
@@ -102,7 +122,9 @@ def unwarn(update, context):
     in_section = section in config.sections()
     command_name = inspect.currentframe().f_code.co_name
     feature_flag = config.get(section, command_name) == "on"
-    admins = update.message.from_user.id in get_admin_ids(context, update.message.chat_id)
+    admins = update.message.from_user.id in get_admin_ids(
+        context, update.message.chat_id
+    )
     if in_section and feature_flag and admins:
         db.unwarn(user_id, user_username, warn)
         warn_text = db.count_warn(user_id)
@@ -116,7 +138,9 @@ def unwarn(update, context):
             + "If you get 3 warns you will be banned for 3 days.",
             reply_to_message_id=update.message.message_id,
         )
-        context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
+        context.bot.deleteMessage(
+            chat_id=update.message.chat.id, message_id=update.message.message_id
+        )
 
 
 unwarn_handler = CommandHandler("unwarn", unwarn, run_async=True)
