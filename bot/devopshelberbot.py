@@ -25,10 +25,8 @@ args = parser.parse_args()
 bottoken = args.bottoken
 environment = args.environment
 config = configparser.ConfigParser()
-# config.read('config.ini')
 config.read(environment)
 
-# bottoken= str(sys.argv[1])
 updater = Updater(token=bottoken, use_context=True)
 dispatcher = updater.dispatcher
 
@@ -514,14 +512,6 @@ def report(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update,command_name)
     admin_chats = base.admin_variables(update)
-    ### ERROR!!! AttributeError: 'NoneType' object has no attribute 'from_user' if there is no reply user ID
-    # chat_id = str(update.message.chat_id)
-    # user_id = str(update.message.reply_to_message.from_user.id)
-    # message_id = str(update.message.reply_to_message.message_id)
-    # keyboard = [
-    #         [InlineKeyboardButton('burn spam', callback_data='spam ' + chat_id + ' ' + user_id + ' ' + message_id)]
-    #     ]
-    # reply_markup = InlineKeyboardMarkup(keyboard)
     if feature_status:
         try:
             context.bot.send_message(chat_id=update.message.chat_id, text="Report on [spam message]("+ "https://t.me/" + str(update.message.chat.username) + "/" \
@@ -590,7 +580,6 @@ def idnumber(update, context):
     feature_status = base.features_state(update,command_name)
     admins = base.is_admin(update, context)
     if feature_status and admins:
-            # context.bot.send_message(chat_id=update.message.chat_id,text="_Italic text_ from user " + triggered_user, parse_mode='MarkdownV2')
             context.bot.send_message(chat_id=update.message.chat_id, text=update.message.chat_id)
             context.bot.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
     else:
