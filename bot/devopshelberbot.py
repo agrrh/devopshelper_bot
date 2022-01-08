@@ -31,6 +31,7 @@ config.read(environment)
 updater = Updater(token=bottoken, use_context=True)
 dispatcher = updater.dispatcher
 
+
 # Get admins list
 @MWT(timeout=60 * 60)
 def get_admin_ids(context, chat_id):
@@ -247,8 +248,9 @@ base = Base()
 
 # User commands
 
-## Studies commands
-### Send user starter kit
+
+# - Studies commands
+# -- Send user starter kit
 def starter(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -290,7 +292,8 @@ def starter(update, context):
 starter_handler = CommandHandler("starter", starter, run_async=True)
 dispatcher.add_handler(starter_handler)
 
-### Send user middle kit
+
+# -- Send user middle kit
 def middle(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -332,7 +335,8 @@ def middle(update, context):
 middle_handler = CommandHandler("middle", middle, run_async=True)
 dispatcher.add_handler(middle_handler)
 
-### Send user list of various courses
+
+# -- Send user list of various courses
 def course(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -363,7 +367,8 @@ def course(update, context):
 course_handler = CommandHandler("course", course, run_async=True)
 dispatcher.add_handler(course_handler)
 
-### Send user tips for certifications
+
+# -- Send user tips for certifications
 def cert(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -394,7 +399,8 @@ def cert(update, context):
 cert_handler = CommandHandler("cert", cert, run_async=True)
 dispatcher.add_handler(cert_handler)
 
-### Send user test tasks
+
+# -- Send user test tasks
 def tasks(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -425,9 +431,9 @@ def tasks(update, context):
 tasks_handler = CommandHandler("tasks", tasks, run_async=True)
 dispatcher.add_handler(tasks_handler)
 
-## Common commands
 
-### Send to user common tasks
+# - Common commands
+# -- Send to user common tasks
 def hrman(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -458,7 +464,8 @@ def hrman(update, context):
 hrman_handler = CommandHandler("hrman", hrman, run_async=True)
 dispatcher.add_handler(hrman_handler)
 
-### Send user list of various relocate chats
+
+# -- Send user list of various relocate chats
 def relocate(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -495,7 +502,8 @@ def relocate(update, context):
 relocate_handler = CommandHandler("relocate", relocate, run_async=True)
 dispatcher.add_handler(relocate_handler)
 
-### Send use Code of Conduct
+
+# -- Send use Code of Conduct
 def coc(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -526,7 +534,8 @@ def coc(update, context):
 coc_handler = CommandHandler("coc", coc, run_async=True)
 dispatcher.add_handler(coc_handler)
 
-### Send user job opportunity and cv publish rules
+
+# -- Send user job opportunity and cv publish rules
 def work(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -568,7 +577,8 @@ def work(update, context):
 work_handler = CommandHandler("work", work, run_async=True)
 dispatcher.add_handler(work_handler)
 
-### Send user advertising rules
+
+# -- Send user advertising rules
 def ad(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -604,7 +614,8 @@ def ad(update, context):
 ad_handler = CommandHandler("ad", ad, run_async=True)
 dispatcher.add_handler(ad_handler)
 
-### Send user list of friendly chats
+
+# -- Send user list of friendly chats
 def chats(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -635,7 +646,8 @@ def chats(update, context):
 chats_handler = CommandHandler("chats", chats, run_async=True)
 dispatcher.add_handler(chats_handler)
 
-### Send user events rules
+
+# -- Send user events rules
 def events(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -666,7 +678,8 @@ def events(update, context):
 events_handler = CommandHandler("events", events, run_async=True)
 dispatcher.add_handler(events_handler)
 
-### User send report message to admins
+
+# -- User send report message to admins
 def report(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -713,7 +726,8 @@ def report(update, context):
 report_handler = CommandHandler("report", report)
 dispatcher.add_handler(report_handler)
 
-### User summon some HRs in thread
+
+# -- User summon some HRs in thread
 def summon(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -741,7 +755,8 @@ def summon(update, context):
 summon_handler = CommandHandler("summon", summon, run_async=True)
 dispatcher.add_handler(summon_handler)
 
-### Send user bots man
+
+# -- Send user bots man
 def man(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -772,8 +787,9 @@ def man(update, context):
 man_handler = CommandHandler("man", man, run_async=True)
 dispatcher.add_handler(man_handler)
 
+
 # Admin commands
-## Get chat number
+# - Get chat number
 def idnumber(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
@@ -840,12 +856,13 @@ def move(update, context):
 move_handler = CommandHandler("move", move, run_async=True)
 dispatcher.add_handler(move_handler)
 
-## Jobs
+
+# - Jobs
 def job(update, context):
     command_name = inspect.currentframe().f_code.co_name
     feature_status = base.features_state(update, command_name)
     admins = base.is_admin(update, context)
-    triggered_user = base.user_data(update)
+    # triggered_user = base.user_data(update)
     job_checks = base.job_variables(update)
     if job_checks[1] is not None:
         text_to_publish = (
@@ -956,8 +973,9 @@ def mute(update, context):
 mute_handler = CommandHandler("mute", mute, pass_args=True, run_async=True)
 dispatcher.add_handler(mute_handler)
 
+
 # Automate service actions
-## Delete service messages
+# - Delete service messages
 def delete_service_message(update, context):
     section = str(update.message.chat.id)
     in_section = section in config.sections()

@@ -30,6 +30,7 @@ config.read(environment)
 updater = Updater(token=bottoken, use_context=True)
 dispatcher = updater.dispatcher
 
+
 # Get admins list
 @MWT(timeout=60 * 60)
 def get_admin_ids(context, chat_id):
@@ -42,7 +43,7 @@ def get_admin_ids(context, chat_id):
 
 # Administrator commands
 
-## Warn some user
+# - Warn some user
 def warn(update, context, args):
     user_id = update.message.reply_to_message.from_user.id
     user_username = update.message.reply_to_message.from_user.username
@@ -91,7 +92,8 @@ def warn(update, context, args):
 warn_handler = CommandHandler("warn", warn, pass_args=True, run_async=True)
 dispatcher.add_handler(warn_handler)
 
-## Unwarn user
+
+# - Unwarn user
 def unwarn(update, context):
     user_id = update.message.reply_to_message.from_user.id
     user_username = update.message.reply_to_message.from_user.username
