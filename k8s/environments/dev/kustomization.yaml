@@ -7,4 +7,4 @@ configMapGenerator:
   - name: bot-config
     namespace: bot
     files:
-    - config_dev.ini=./config_dev.ini 
+    - config_dev.ini=./config_dev.ini
