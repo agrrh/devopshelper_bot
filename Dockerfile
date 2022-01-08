@@ -1,18 +1,20 @@
-FROM python:3.10.0b4-alpine
+FROM python:3.10-slim
 LABEL maintainer=Asgoret
 
-ARG user=bot
-ARG group=botGroup
+ARG APP_USER=bot
+ARG APP_GROUP=botgroup
+
+ENV APP_USER=${APP_USER}
+ENV APP_GROUP=${APP_GROUP}
 
 ENV botToken=mock
 ENV envFile=mock
 
-RUN addgroup -S ${group} && adduser -S ${user} -G ${group}; \
-    apk add --no-cache gcc g++ musl-dev python3-dev libffi-dev openssl-dev cargo
+RUN addgroup --system ${APP_GROUP} && adduser --system --ingroup ${APP_GROUP} ${APP_USER}
 
-USER ${user}
+USER ${APP_USER}
 
-WORKDIR /home/${user}
+WORKDIR /home/${APP_USER}
 COPY requirements.txt ./
 RUN mkdir ./bot; \
     pip install --upgrade pip; \
@@ -22,4 +24,4 @@ RUN mkdir ./bot; \
 COPY ./bot /bot
 WORKDIR /bot
 
-CMD python devopshelberbot.py -b=$botToken -e=$envFile
+CMD ["python", "devopshelberbot.py", "-b=$botToken", "-e=$envFile"]
