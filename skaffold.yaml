@@ -1,3 +1,5 @@
+---
+
 apiVersion: skaffold/v2beta19
 kind: Config
 profiles:
@@ -8,7 +10,7 @@ profiles:
     deploy:
       kubeContext: minikube
       kustomize:
-        paths: 
+        paths:
           - "k8s/environments/dev"
   - name: prod
     build:
@@ -19,4 +21,3 @@ profiles:
       - image: asgoret/devopshelper_bot
       local:
         push: true
-
