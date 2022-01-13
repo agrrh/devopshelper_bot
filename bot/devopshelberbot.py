@@ -5,7 +5,7 @@ import argparse
 import inspect
 import re
 import shlex
-from mwt import MWT
+import cachetools.func
 from dbhelper import DBHelper
 from telegram import ChatPermissions
 from telegram.ext import MessageHandler, Filters, CommandHandler, Updater
@@ -51,7 +51,7 @@ dispatcher = updater.dispatcher
 
 
 # Get admins list
-@MWT(timeout=60 * 60)
+@cachetools.func.ttl_cache(ttl=3600)
 def get_admin_ids(context, chat_id):
     """Returns a list of admin IDs for a given chat. Results are cached for 1 hour."""
     return [admin.user.id for admin in context.bot.get_chat_administrators(chat_id)]
