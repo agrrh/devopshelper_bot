@@ -1,14 +1,18 @@
-import logging
 import datetime
-import configparser
-import argparse
 import inspect
+import logging
+import os
 import re
 import shlex
+import yaml
 import cachetools.func
 from dbhelper import DBHelper
+
 from telegram import ChatPermissions
 from telegram.ext import MessageHandler, Filters, CommandHandler, Updater
+
+from mwt import MWT
+from dbhelper import DBHelper
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -17,36 +21,12 @@ logger = logging.getLogger(__name__)
 
 db = DBHelper()
 
-parser = argparse.ArgumentParser(
-    description="Bot for helping in administration in DevOps groups in TG"
-)
+telegram_token = os.environ.get("APP_TELEGRAM_BOT_TOKEN")
+config_path = os.environ.get("APP_CONFIG_PATH")
 
-parser.add_argument(
-    "-b",
-    "--bottoken",
-    dest="bottoken",
-    type=str,
-    default="1231423",
-    help="Bot token for TG API",
-)
-parser.add_argument(
-    "-e",
-    "--environment",
-    dest="environment",
-    type=str,
-    default="config.ini",
-    help="Environment for bot",
-)
+config = yaml.load(config_path, loader=yaml.BaseLoader)
 
-args = parser.parse_args()
-bottoken = args.bottoken
-environment = args.environment
-config = configparser.ConfigParser()
-# config.read('config.ini')
-config.read(environment)
-
-# bottoken= str(sys.argv[1])
-updater = Updater(token=bottoken, use_context=True)
+updater = Updater(token=telegram_token, use_context=True)
 dispatcher = updater.dispatcher
 
 
@@ -66,16 +46,16 @@ class Base:
         self.user_id = None
         self.mention_user = None
         self.admin = False
-        self.root_url = config.get("shared", "root_url")
+        self.root_url = config.get("shared", {}).get("root_url")
         self.channel_specify = None
-        self.course_location = config.get("shared", "course_folder")
-        self.hrman = config.get("shared", "hrman_filename")
-        self.relocate = config.get("shared", "relocate_filename")
-        self.coc = config.get("shared", "coc_filename")
-        self.vacancy = config.get("shared", "jobs_filename")
-        self.ad = config.get("shared", "advertising_filename")
-        self.chats = config.get("shared", "othet_chats")
-        self.events = config.get("shared", "events_list")
+        self.course_location = config.get("shared", {}).get("course_folder")
+        self.hrman = config.get("shared", {}).get("hrman_filename")
+        self.relocate = config.get("shared", {}).get("relocate_filename")
+        self.coc = config.get("shared", {}).get("coc_filename")
+        self.vacancy = config.get("shared", {}).get("jobs_filename")
+        self.ad = config.get("shared", {}).get("advertising_filename")
+        self.chats = config.get("shared", {}).get("othet_chats")
+        self.events = config.get("shared", {}).get("events_list")
         self.message_text = str
         self.hour = int()
         self.day = int()
@@ -103,11 +83,11 @@ class Base:
 
     def features_state(self, update, command_name):
         self.section = str(update.message.chat.id)
-        if config.has_section(self.section):
-            self.in_section = True
-            if config.get(self.section, command_name) == "on":
-                self.feature_flag = True
-                return True
+
+        self.in_section = self.section in config
+        self.feature_flag = config.get(self.section, {}).get(command_name)
+
+        return self.feature_flag
 
     def user_data(self, update):
         self.mention_user = update.message.from_user.mention_markdown_v2()
@@ -120,77 +100,69 @@ class Base:
             return True
 
     def study(self, command_name):
-        self.channel_specify = config.get(self.section, "study")
+        # TODO Rework as dict
+
+        self.channel_specify = config.get(self.section, {}).get("study")
+
         if command_name == "starter":
-            starter = config.get(self.section, "starter_filename")
+            starter = config.get(self.section, {}).get("starter_filename")
             url = self.root_url + self.channel_specify + "/" + starter
-            return url
         elif command_name == "middle":
-            middle = config.get(self.section, "middle_filename")
+            middle = config.get(self.section, {}).get("middle_filename")
             url = self.root_url + self.channel_specify + "/" + middle
-            return url
         elif command_name == "course":
-            course = config.get("shared", "course_filename")
+            course = config.get("shared", {}).get("course_filename")
             url = self.root_url + self.course_location + "/" + course
-            return url
         elif command_name == "cert":
-            certification = config.get(self.section, "certification_filename")
+            certification = config.get(self.section, {}).get("certification_filename")
             url = self.root_url + self.channel_specify + "/" + certification
-            return url
         elif command_name == "tasks":
-            url = config.get(self.section, "github_url")
-            return url
+            url = config.get(self.section, {}).get("github_url")
+
+        return url
 
     def common(self, command_name):
+        # TODO Rework as dict
+
         if command_name == "hrman":
             url = self.root_url + self.hrman
-            return url
-        if command_name == "relocate":
+        elif command_name == "relocate":
             url = self.root_url + self.relocate
-            return url
-        if command_name == "coc":
+        elif command_name == "coc":
             url = self.root_url + self.coc
-            return url
-        if command_name == "work":
+        elif command_name == "work":
             url = self.root_url + self.vacancy
-            return url
-        if command_name == "ad":
+        elif command_name == "ad":
             url = self.root_url + self.ad
-            return url
-        if command_name == "chats":
+        elif command_name == "chats":
             url = self.root_url + self.chats
-            return url
-        if command_name == "events":
+        elif command_name == "events":
             url = self.root_url + self.events
-            return url
+
+        return url
 
     def admin_variables(self, update):
         self.section = str(update.message.chat.id)
-        spam_rss = config.get(self.section, "admin_chat")
-        return spam_rss
+        return config.get(self.section, {}).get("admin_chat")
 
     def summons(self, update):
         self.section = str(update.message.chat.id)
-        user_list = config.get(self.section, "summon_list")
-        return user_list
+        return config.get(self.section, {}).get("summon_list")
 
     def available_commands(self, update):
         self.section = str(update.message.chat.id)
-        file = open(
-            "helps/" + config.get(self.section, "commands_list") + "/commands.txt", "r"
-        )
-        return file
+        return config.get(self.section, {}).get("commands_help")
 
     def moveIDs(self, update):
         self.section = str(update.message.chat.id)
-        from_id = config.get(self.section, "move_from_id")
-        to_name = config.get(self.section, "move_to_name")
-        to_id = config.get(self.section, "move_to_id")
+        from_id = config.get(self.section, {}).get("move_from_id")
+        to_name = config.get(self.section, {}).get("move_to_name")
+        to_id = config.get(self.section, {}).get("move_to_id")
         return from_id, to_name, to_id
 
     def job_variables(self, update):
         self.section = str(update.message.chat.id)
-        job_rss = config.get(self.section, "job_rss")
+        job_rss = config.get(self.section, {}).get("job_rss")
         job_channels = shlex.split(job_rss)
         match_job = re.compile("#вакансия", re.IGNORECASE)
         match_work = re.compile("#резюме", re.IGNORECASE)
@@ -216,7 +188,7 @@ class Base:
 
     def mute_variables(self, update):
         self.section = str(update.message.chat.id)
-        admin_chat = config.get(self.section, "admin_chat")
+        admin_chat = config.get(self.section, {}).get("admin_chat")
         restrict = ChatPermissions(
             can_send_messages=False,
             can_send_media_messages=False,
@@ -1197,9 +1169,9 @@ dispatcher.add_handler(mute_handler)
 # - Delete service messages
 def delete_service_message(update, context):
     section = str(update.message.chat.id)
-    in_section = section in config.sections()
+    in_section = section in config
     command_name = inspect.currentframe().f_code.co_name
-    feature_flag = config.get(section, command_name) == "on"
+    feature_flag = config.get(section, {}).get(command_name)
     msg = update.effective_message
     if in_section and feature_flag:
         context.bot.delete_message(chat_id=msg.chat.id, message_id=msg.message_id)
