@@ -23,13 +23,13 @@ spec:
         - name: bot
           image: devopshelper_bot
           env:
-            - name: botToken
+            - name: APP_TELEGRAM_BOT_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: bot-dev-token
                   key: botToken
-            - name: envFile
-              value: /tmp/config_dev.ini
+            - name: APP_CONFIG_PATH
+              value: /tmp/config_dev.yml
           volumeMounts:
             - name: config-volume
               mountPath: /tmp

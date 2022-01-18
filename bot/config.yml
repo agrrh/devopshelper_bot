@@ -1,0 +1,354 @@
+---
+
+shared:
+  root_url: https://github.com/Asgoret/devops_chats/blob/master/
+  relocate_filename: relocate.md
+  coc_filename: CoC.md
+  jobs_filename: vacancy.md
+  advertising_filename: ad.md
+  othet_chats: Friendly_chats.md
+  events_list: events.md
+  course_folder: courses
+  course_filename: courses.md
+  hrman_filename: hrman.md
+
+"-1001051806860":  # DevOps Jobs
+  # User commands list
+  ## Sharing knolewge commands
+  starter: true
+  middle: true
+  cert: true
+  relocate: true
+  course: true
+  tasks: true
+  hrman: true
+  ## Rules commands
+  coc: true
+  work: true
+  ad: true
+  chats: true
+  events: true
+  ## Other commands
+  report: true
+  summon: true
+  # Admin commands list
+  mute: true
+  warn: false
+  unwarn: false
+  move: true
+  man: true
+  job: true
+  # Service commands
+  delete_service_message: true
+  # Variables
+  ## Variables for command 'job'
+  job_rss: "@devops_jobs_feed @sre_devops_jobs_rss"
+  ## Variable for command 'man'
+  # yamllint disable rule:line-length
+  commands_help: |-
+    *User commands:*
+    \- `/man` \- send list of commands to chat
+    \- `/coc` \- send code of conduct to user
+    \- `/work` \- send rules of publishing job opportunities and cv
+    \- `/ad` \- send rules of publishing advertising
+    \- `/chats` \- send list of friendly chats
+    \- `/events` \- send list of events to user
+    \- `/starter` \- send starter kit to user
+    \- `/middle` \- send middle kit to user
+    \- `/tasks` \- send user pack of DevOps tasks
+    \- `/course` \- send to user list list of courses
+    \- `/cert` \- send user list of certification tips & tricks
+    \- `/relocate` \- send user list of relocate chats and channels
+    \- `/report` \- forward replied message to admin chat and send link of replied message for fast\-navigation \(works on replied message\)
+    \- `/summon` \- summon HR to DevOps Jobs chat \(works on replied message\)
+    \- `/hrman` \- send HR man for user
+
+  # yamllint enable rule:line-length
+
+  ## Variable for commands 'starter\middle\certification'
+  study: devops
+  certification_filename: certification.md
+  starter_filename: starter.md
+  middle_filename: middle.md
+  ## Variables for command 'move'
+  move_to_id: -1001030317489
+  move_to_name: "@devops_ru"
+  move_from_id: -1001051806860
+  ## Variable for command 'summon'
+  summon_list: "@sofiko_mh @pomeha_sprava @arunova @railyakaM @hope_dies_last_HR"
+  ## Variable for command 'report'
+  admin_chat: -1001180815953
+  # Variable for command 'tasks'
+  github_url: https://github.com/Asgoret/test_tasks
+
+"-1001030317489":  # DevOps Ru
+  # User commands list
+  ## Sharing knolewge commands
+  starter: true
+  middle: true
+  cert: true
+  relocate: true
+  course: true
+  tasks: true
+  hrman: false
+  ## Rules commands
+  coc: true
+  work: false
+  ad: true
+  chats: true
+  events: true
+  ## Other commands
+  report: true
+  summon: false
+  # Admin commands list
+  mute: true
+  warn: false
+  unwarn: false
+  move: true
+  man: true
+  job: false
+  # Service commands
+  delete_service_message: true
+  # Variables
+  ## Variable for command 'man'
+  # yamllint disable rule:line-length
+  commands_help: |-
+    *User commands:*
+    \- `/man` \- send list of commands to chat
+    \- `/coc` \- send code of conduct to user
+    \- `/jobs` \- send rules of publishing job opportunities and cv
+    \- `/ad` \- send rules of publishing advertising
+    \- `/chats` \- send list of friendly chats
+    \- `/events` \- send list of events to user
+    \- `/starter` \- send starter kit to user
+    \- `/middle` \- send middle kit to user
+    \- `/tasks` \- send user pack of DevOps tasks
+    \- `/course` \- send to user list list of courses
+    \- `/cert` \- send user list of certification tips & tricks
+    \- `/relocate` \- send user list of relocate chats and channels
+    \- `/report` \- forward replied message to admin chat and send link of replied message for fast\-navigation
+
+  # yamllint enable rule:line-length
+
+  ## Variable for commands 'starter\middle\certification'
+  study: devops
+  certification_filename: certification.md
+  starter_filename: starter.md
+  middle_filename: middle.md
+  ## Variables for command 'move'
+  move_to_id: -1001051806860
+  move_to_name: "@devops_jobs"
+  move_from_id: -1001030317489
+  ## Variable for command 'report'
+  admin_chat: -1001180815953
+  # Variable for command 'tasks'
+  github_url: https://github.com/Asgoret/test_tasks
+
+"-1001180815953":  # DevOps Admin chat
+  # User commands list
+  ## Sharing knolewge commands
+  starter: false
+  middle: false
+  cert: false
+  relocate: false
+  course: false
+  tasks: false
+  hrman: false
+  ## Rules commands
+  coc: false
+  work: false
+  ad: false
+  chats: false
+  events: false
+  ## Other commands
+  report: false
+  summon: false
+  # Admin commands list
+  mute: false
+  warn: false
+  unwarn: false
+  move: false
+  man: true
+  job: false
+  # Service commands
+  delete_service_message: false
+  # Variables
+  ## Variable for command 'man'
+  # yamllint disable rule:line-length
+  commands_help: |-
+    *Admin commands:*
+
+    \- `/mute 10` \- where `10` days \(works on replied message\)
+    \- `/warn` \- add 1 warn to user\. If user gets 3 warns will be banned for 3 days \(works on replied message\)
+    \- `/unwarn` \- delete 1 warn from user \(works on replied message\)
+    \- `/move` \- move message from one chat to another \(works on replied message\)
+    \- `/job` \- forward message to job channel
+
+    *User commands:*
+
+    \- `/man` \- send list of commands to chat
+    \- `/coc` \- send code of conduct to user
+    \- `/jobs` \- send rules of publishing job opportunities and cv
+    \- `/ad` \- send rules of publishing advertising
+    \- `/chats` \- send list of friendly chats
+    \- `/events` \- send list of events to user
+    \- `/tasks` \- send user pack of DevOps tasks
+    \- `/starter` \- send starter kit to user
+    \- `/middle` \- send starter kit to user
+    \- `/course` \- send to user list list of courses
+    \- `/cert` \- send user list of certification tips & tricks
+    \- `/relocate` \- send user list of relocate chats and channels
+    \- `/report` \- forward replied message to admin chat and send link of replied message for fast\-navigation
+    \- `/summon` \- summon HR to DevOps Jobs chat \(works on replied message\)
+
+    *All commands are disabled in admin chat\.*
+
+  # yamllint enable rule:line-length
+
+
+"-1001112614954":  # TelRan++
+  # User commands list
+  ## Sharing knolewge commands
+  starter: true
+  middle: true
+  cert: true
+  relocate: true
+  course: true
+  tasks: true
+  hrman: false
+  ## Rules commands
+  coc: true
+  work: true
+  ad: false
+  chats: false
+  events: false
+  ## Other commands
+  report: false
+  summon: false
+  # Admin commands list
+  mute: true
+  warn: false
+  unwarn: false
+  move: false
+  man: true
+  job: true
+  # Service commands
+  delete_service_message: false
+  # Variables
+  ## Variable for command 'man'
+  # yamllint disable rule:line-length
+  commands_help: |-
+    *User commands:*
+    \- `/man` \- send list of commands to chat
+    \- `/coc` \- send code of conduct to user
+    \- `/starter` \- send starter kit to user
+    \- `/middle` \- send middle kit to user
+    \- `/course` \- send to user list list of courses
+    \- `/cert` \- send user list of certification tips & tricks
+
+  # yamllint enable rule:line-length
+
+  ## Variable for commands 'starter\middle\certification'
+  study: devops
+  certification_filename: certification.md
+  starter_filename: starter.md
+  middle_filename: middle.md
+  ## Variables for command 'job'
+  job_rss: "@israjobs"
+
+
+### SRE Hamster project
+"-1001354992135":  # SRE Hamster Job
+  # User commands list
+  ## Sharing knolewge commands
+  starter: true
+  middle: true
+  cert: true
+  relocate: true
+  course: true
+  tasks: true
+  hrman: true
+  ## Rules commands
+  coc: true
+  work: true
+  ad: true
+  chats: true
+  events: true
+  ## Other commands
+  report: true
+  summon: false
+  # Admin commands list
+  mute: true
+  warn: false
+  unwarn: false
+  move: true
+  man: true
+  job: true
+  # Service commands
+  delete_service_message: true
+  # Variables
+  ## Variables for command 'job'
+  job_rss: "@sre_devops_jobs_rss"
+  ## Variable for command 'man'
+  commands_list: devops_jobs
+  ## Variable for commands 'starter\middle\certification'
+  study: devops
+  certification_filename: certification.md
+  starter_filename: starter.md
+  middle_filename: middle.md
+  ## Variables for command 'move'
+  move_to_id: -1001299585988
+  move_to_name: "@sre_hamster_tech"
+  move_from_id: -1001354992135
+  ## Variable for command 'summon'
+  summon_list: "@Asgoret"
+  ## Variable for command 'report'
+  admin_chat: -372303704
+  # Variable for command 'tasks'
+  github_url: https://github.com/Asgoret/test_tasks
+
+"-1001299585988":  # SRE Hamster Tech
+  # User commands list
+  ## Sharing knolewge commands
+  starter: true
+  middle: true
+  cert: true
+  relocate: true
+  course: true
+  tasks: true
+  hrman: false
+  ## Rules commands
+  coc: true
+  work: false
+  ad: true
+  chats: true
+  events: true
+  ## Other commands
+  report: true
+  summon: false
+  # Admin commands list
+  mute: true
+  warn: false
+  unwarn: false
+  move: true
+  man: true
+  job: false
+  jobs: false
+  # Service commands
+  delete_service_message: true
+  # Variables
+  ## Variable for command 'man'
+  commands_list: devops_jobs
+  ## Variable for commands 'starter\middle\certification'
+  study: devops
+  certification_filename: certification.md
+  starter_filename: starter.md
+  middle_filename: middle.md
+  ## Variables for command 'move'
+  move_to_id: -1001354992135
+  move_to_name: "@sre_hamster_job"
+  move_from_id: -1001299585988
+  ## Variable for command 'report'
+  admin_chat: -372303704
+  # Variable for command 'tasks'
+  github_url: https://github.com/Asgoret/test_tasks

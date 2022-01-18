@@ -1,7 +1,1 @@
-
-future==0.18.2
-certifi==2021.10.8
-tornado==6.1
-cryptography==36.0.1
-pysocks==1.7.1
 python-telegram-bot==13.10
