@@ -11,9 +11,6 @@ from dbhelper import DBHelper
 from telegram import ChatPermissions
 from telegram.ext import MessageHandler, Filters, CommandHandler, Updater
 
-from mwt import MWT
-from dbhelper import DBHelper
-
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
