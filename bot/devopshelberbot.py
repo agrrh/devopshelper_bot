@@ -6,10 +6,11 @@ import re
 import shlex
 import yaml
 import cachetools.func
-from dbhelper import DBHelper
 
 from telegram import ChatPermissions
 from telegram.ext import MessageHandler, Filters, CommandHandler, Updater
+
+from dbhelper import DBHelper
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
